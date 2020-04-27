@@ -1,3 +1,4 @@
+package hellofx;
 
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ import org.json.JSONObject;
 
 public class BlueMarble {
 	
-	private String API_KEY = "7u1nv3v73ROS0u2F65J7w14pnGpjzwCv6cruBzes";
+	private String API_KEY = "RK2hwPVXBEXaFpo6Ww2UXcixNktPyfNlfs38VkHR";
 	private String dateAsString;
 	private String quality = "natural";
 	private String caption;
@@ -21,6 +22,26 @@ public class BlueMarble {
 		BlueMarble blueMarble = new BlueMarble();
 		blueMarble.setDate(LocalDate.now().minusDays(1).toString());
 		return blueMarble.getImage();
+	}
+
+	public static String getMostRecentImageDate(String imgType) {
+		String lastImageDate = "2019-06-27";
+		try {
+			if (imgType.toLowerCase() != "natural"
+					&& imgType.toLowerCase() != "enhanced") {
+				throw new IllegalArgumentException("Invalid image type");
+			}
+			URL url = new URL("https://api.nasa.gov/EPIC/api/" + 
+								imgType + "/all?api_key=RK2hwPVXBEXaFpo6Ww2UXcixNktPyfNlfs38VkHR");
+			InputStream metaInfoStream = url.openStream();
+			lastImageDate = IOUtils.toString(metaInfoStream, "UTF-8").substring(10, 20);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return lastImageDate;
+		
 	}
 	
 	public void setDate(String date) {
